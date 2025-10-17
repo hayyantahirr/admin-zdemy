@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "./ThemeContext";
 import AdminSidebar from "./AdminSidebar";
 import AdminNav from "./AdminNav";
-import AdminOrderList from "./AdminOrderList";
-import AdminMenuItems from "./AdminMenuItems";
+import AdminOrderList from "./AdminGallery";
+import AdminMenuItems from "./AdminTeachers";
 import {
   Chart as ChartJS,
   CategoryScale,

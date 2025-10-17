@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
-
 // Modal component for adding new menu items
 const AdminAddMenu = ({ isOpen, onClose }) => {
   // State to show notification after form submission
@@ -100,7 +99,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       }
 
       // Simulate adding product (no actual API call)
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Show success notification
       setNotification({

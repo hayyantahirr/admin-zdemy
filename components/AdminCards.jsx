@@ -19,7 +19,7 @@ const AdminCards = () => {
       item_price: 12.99,
       item_category: "Pizza",
       item_desc: "Classic pizza with tomato sauce, mozzarella, and fresh basil",
-      item_pic: "/api/placeholder/300/200"
+      item_pic: "/api/placeholder/300/200",
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ const AdminCards = () => {
       item_price: 14.99,
       item_category: "Pizza",
       item_desc: "Pizza with pepperoni, tomato sauce, and mozzarella cheese",
-      item_pic: "/api/placeholder/300/200"
+      item_pic: "/api/placeholder/300/200",
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ const AdminCards = () => {
       item_price: 8.99,
       item_category: "Salad",
       item_desc: "Fresh romaine lettuce with Caesar dressing and croutons",
-      item_pic: "/api/placeholder/300/200"
+      item_pic: "/api/placeholder/300/200",
     },
     {
       id: 4,
@@ -43,8 +43,8 @@ const AdminCards = () => {
       item_price: 16.99,
       item_category: "Pasta",
       item_desc: "Creamy pasta with bacon, eggs, and parmesan cheese",
-      item_pic: "/api/placeholder/300/200"
-    }
+      item_pic: "/api/placeholder/300/200",
+    },
   ];
 
   useEffect(() => {

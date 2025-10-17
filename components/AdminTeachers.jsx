@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import AdminAddMenu from "./AdminAddMenu";
 import AdminCards from "./AdminCards";
 
-const AdminMenuItems = () => {
+const AdminTeachers = () => {
   // State to control modal visibility
   const [showModal, setShowModal] = useState(false);
 
@@ -15,13 +15,13 @@ const AdminMenuItems = () => {
           className="text-2xl font-bold "
           style={{ color: "var(--foreground)" }}
         >
-          Menu Items
+          Teachers
         </h2>
-        <button 
+        <button
           className="bg-[var(--accent)] text-white px-4 py-2 rounded-md cursor-pointer hover:opacity-90"
           onClick={() => setShowModal(true)}
         >
-          Add Item
+          Add Teacher
         </button>
       </div>
 
@@ -29,16 +29,13 @@ const AdminMenuItems = () => {
         className="rounded-lg shadow p-4"
         style={{ backgroundColor: "var(--card-bg)", color: "var(--card-text)" }}
       >
-        <AdminCards/>
+        <AdminCards />
       </div>
-      
+
       {/* Modal component for adding new menu items */}
-      <AdminAddMenu 
-        isOpen={showModal} 
-        onClose={() => setShowModal(false)} 
-      />
+      <AdminAddMenu isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 };
 
-export default AdminMenuItems;
+export default AdminTeachers;
