@@ -16,14 +16,16 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
   // State for selected subjects (multi-select)
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [imgURL, setImgURL] = useState(""); // State to store Cloudinary image URL
+  // State for teacher schedule
+  const [schedule, setSchedule] = useState([]);
 
   // Refs for form inputs
   const nameRef = useRef(null);
-
-  // Ref for the modal to detect outside clicks
-  const modalRef = useRef(null);
   const aGradesRef = useRef(null);
   const aStarRef = useRef(null);
+  const experienceRef = useRef(null);
+  // Ref for the modal to detect outside clicks
+  const modalRef = useRef(null);
 
   // Social media refs (optional fields)
   const facebookRef = useRef(null);
@@ -64,6 +66,46 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
     "Add Maths",
   ];
 
+  // Available days for schedule
+  const availableDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+  ];
+
+  // Available time options (12-hour format with AM/PM)
+  const timeOptions = [
+    "8:00 AM",
+    "8:30 AM",
+    "9:00 AM",
+    "9:30 AM",
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "1:00 PM",
+    "1:30 PM",
+    "2:00 PM",
+    "2:30 PM",
+    "3:00 PM",
+    "3:30 PM",
+    "4:00 PM",
+    "4:30 PM",
+    "5:00 PM",
+    "5:30 PM",
+    "6:00 PM",
+    "6:30 PM",
+    "7:00 PM",
+    "7:30 PM",
+    "8:00 PM",
+    "8:30 PM",
+    "9:00 PM",
+  ];
+
   // Handle subject selection
   const handleSubjectSelect = (e) => {
     const selectedSubject = e.target.value;
@@ -79,6 +121,35 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       selectedSubjects.filter((subject) => subject !== subjectToRemove)
     );
   };
+
+  // Handle adding a new schedule entry
+  const addSchedule = (day, startTime, endTime) => {
+    if (day && startTime && endTime) {
+      // Check if this day already has a schedule
+      const existingSchedule = schedule.find((s) => s.day === day);
+      if (existingSchedule) {
+        setAlert({
+          show: true,
+          message: `Schedule for ${day} already exists. Please remove it first or choose a different day.`,
+          type: "error",
+        });
+        return;
+      }
+
+      const newSchedule = {
+        id: Date.now(), // Simple ID for tracking
+        day,
+        startTime,
+        endTime,
+      };
+      setSchedule([...schedule, newSchedule]);
+    }
+  };
+
+  // Handle removing a schedule entry
+  const removeSchedule = (scheduleId) => {
+    setSchedule(schedule.filter((s) => s.id !== scheduleId));
+  };
   // image into URL
   const myWidget = cloudinary.createUploadWidget(
     {
@@ -88,7 +159,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
     (error, result) => {
       if (!error && result && result.event === "success") {
         console.log("Done! Here is the image info: ", result.info);
-        setImgURL(result.info.url)
+        setImgURL(result.info.url);
       }
     }
   );
@@ -99,7 +170,12 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
 
     try {
       // Check if refs are valid before accessing their values
-      if (!nameRef.current || !aGradesRef.current || !aStarRef.current) {
+      if (
+        !nameRef.current ||
+        !aGradesRef.current ||
+        !aStarRef.current ||
+        !experienceRef.current
+      ) {
         setNotification({
           show: true,
           message: "Form initialization error. Please try again.",
@@ -113,6 +189,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       const name = nameRef.current.value;
       const aGrades = aGradesRef.current.value;
       const aStar = aStarRef.current.value;
+      const experience = experienceRef.current.value;
 
       // Get social media values (optional)
       const facebook = facebookRef.current?.value || "";
@@ -120,7 +197,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       const website = websiteRef.current?.value || "";
 
       // Validate required inputs (including image)
-      if (!name || !aGrades || !aStar || !imgURL) {
+      if (!name || !aGrades || !aStar || !imgURL || !experience) {
         setNotification({
           show: true,
           message: "Please fill all required fields and upload an image",
@@ -130,24 +207,60 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
         return;
       }
 
+      // Validate subjects selection
+      if (selectedSubjects.length === 0) {
+        setNotification({
+          show: true,
+          message: "Please select at least one subject",
+          type: "error",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Validate schedule (mandatory)
+      if (schedule.length === 0) {
+        setNotification({
+          show: true,
+          message: "Please add at least one schedule entry",
+          type: "error",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       // Create new teacher object with selected subjects
       const newTeacher = {
         name,
-        description,
         aGrades,
         aStar,
         image: imgURL, // Use Cloudinary image URL
         subjects: selectedSubjects,
+        schedule: schedule.map((s) => ({
+          day: s.day,
+          startTime: s.startTime,
+          endTime: s.endTime,
+        })), // Include schedule array without internal IDs
         facebook,
         instagram,
         website,
+        experience,
       };
 
       console.log(newTeacher);
-
-      // Simulate adding product (no actual API call)
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      try {
+        await axios
+          .post(
+            "http://localhost:4000/teachersForOlevels/addTeacherForOlevels",
+            newTeacher
+          )
+          .then((response) => {
+            console.log("Teacher added successfully:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error adding teacher:", error);
+          });
+      } catch {}
       // Show success notification
       setNotification({
         show: true,
@@ -157,6 +270,9 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
 
       // Reset form and close modal
       e.target.reset();
+      setSelectedSubjects([]); // Reset subjects
+      setSchedule([]); // Reset schedule
+      setImgURL(""); // Reset image URL
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -260,6 +376,178 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
               </select>
             </div>
 
+            {/* Schedule Section */}
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">
+                Schedule/Timings *
+              </label>
+
+              {/* Existing Schedule Entries */}
+              {schedule.length > 0 && (
+                <div className="mb-4 space-y-2">
+                  {schedule.map((scheduleItem) => (
+                    <div
+                      key={scheduleItem.id}
+                      className="flex items-center justify-between p-3 rounded-md border"
+                      style={{
+                        backgroundColor: "var(--card)",
+                        borderColor: "var(--card-text)",
+                      }}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <span className="font-medium text-sm">
+                          {scheduleItem.day}
+                        </span>
+                        <span className="text-sm">
+                          {scheduleItem.startTime} - {scheduleItem.endTime}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeSchedule(scheduleItem.id)}
+                        className="text-red-500 hover:text-red-700 focus:outline-none"
+                        aria-label={`Remove ${scheduleItem.day} schedule`}
+                      >
+                        ❌
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Add New Schedule Form */}
+              <div
+                className="border rounded-md p-4"
+                style={{ borderColor: "var(--card-text)" }}
+              >
+                <h4 className="text-sm font-medium mb-3">Add New Schedule</h4>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                  {/* Day Dropdown */}
+                  <div>
+                    <label className="block text-xs mb-1">Day</label>
+                    <select
+                      id="schedule-day"
+                      className="w-full px-2 py-2 border rounded-md text-sm"
+                      style={{
+                        backgroundColor: "var(--background)",
+                        color: "var(--foreground)",
+                        borderColor: "var(--card-text)",
+                      }}
+                      defaultValue=""
+                    >
+                      <option value="">Select Day</option>
+                      {availableDays
+                        .filter((day) => !schedule.some((s) => s.day === day))
+                        .map((day, index) => (
+                          <option key={index} value={day}>
+                            {day}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+
+                  {/* Start Time Dropdown */}
+                  <div>
+                    <label className="block text-xs mb-1">Start Time</label>
+                    <select
+                      id="schedule-start-time"
+                      className="w-full px-2 py-2 border rounded-md text-sm"
+                      style={{
+                        backgroundColor: "var(--background)",
+                        color: "var(--foreground)",
+                        borderColor: "var(--card-text)",
+                      }}
+                      defaultValue=""
+                    >
+                      <option value="">Select Start Time</option>
+                      {timeOptions.map((time, index) => (
+                        <option key={index} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* End Time Dropdown */}
+                  <div>
+                    <label className="block text-xs mb-1">End Time</label>
+                    <select
+                      id="schedule-end-time"
+                      className="w-full px-2 py-2 border rounded-md text-sm"
+                      style={{
+                        backgroundColor: "var(--background)",
+                        color: "var(--foreground)",
+                        borderColor: "var(--card-text)",
+                      }}
+                      defaultValue=""
+                    >
+                      <option value="">Select End Time</option>
+                      {timeOptions.map((time, index) => (
+                        <option key={index} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Add Schedule Button */}
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const day =
+                          document.getElementById("schedule-day").value;
+                        const startTime = document.getElementById(
+                          "schedule-start-time"
+                        ).value;
+                        const endTime =
+                          document.getElementById("schedule-end-time").value;
+
+                        if (day && startTime && endTime) {
+                          addSchedule(day, startTime, endTime);
+                          // Reset dropdowns
+                          document.getElementById("schedule-day").value = "";
+                          document.getElementById("schedule-start-time").value =
+                            "";
+                          document.getElementById("schedule-end-time").value =
+                            "";
+                        } else {
+                          setAlert({
+                            show: true,
+                            message:
+                              "Please select day, start time, and end time.",
+                            type: "error",
+                          });
+                        }
+                      }}
+                      className="w-full px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                      style={{
+                        backgroundColor: "var(--accent)",
+                        color: "white",
+                      }}
+                    >
+                      Add Schedule
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Item Experience */}
+            <div className="mb-4">
+              <label className="block mb-2">Experience</label>
+              <input
+                ref={experienceRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="Experience"
+                required
+              />
+            </div>
             {/* Item A Grades */}
             <div className="mb-4">
               <label className="block mb-2">A Grades</label>
@@ -290,6 +578,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
                 required
               />
             </div>
+
             {/* Social Media Links - Optional Fields */}
             <div className="mb-4">
               <label className="block mb-2">Facebook (Optional)</label>
