@@ -13,22 +13,22 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
   });
   // State to track loading during form submission
   const [isLoading, setIsLoading] = useState(false);
+  // State for selected subjects (multi-select)
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const [imgURL, setImgURL] = useState(""); // State to store Cloudinary image URL
 
   // Refs for form inputs
   const nameRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const priceRef = useRef(null);
-  const imageRef = useRef(null);
-  const xs_priceRef = useRef(null);
-  const sm_priceRef = useRef(null);
-  const md_priceRef = useRef(null);
-  const l_priceRef = useRef(null);
-  const xl_priceRef = useRef(null);
-  const categoryRef = useRef(null);
 
   // Ref for the modal to detect outside clicks
   const modalRef = useRef(null);
+  const aGradesRef = useRef(null);
+  const aStarRef = useRef(null);
 
+  // Social media refs (optional fields)
+  const facebookRef = useRef(null);
+  const instagramRef = useRef(null);
+  const websiteRef = useRef(null);
   // Handle click outside modal to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -46,7 +46,52 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  // Function to upload image to Supabase storage
+  // Initialize Cloudinary widget
+
+  // Available subjects for selection
+  const availableSubjects = [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "English",
+    "PST",
+    "Economics",
+    "Computer Science",
+    "Accounts",
+    "Islamiat",
+    "Urdu",
+    "Add Maths",
+  ];
+
+  // Handle subject selection
+  const handleSubjectSelect = (e) => {
+    const selectedSubject = e.target.value;
+    if (selectedSubject && !selectedSubjects.includes(selectedSubject)) {
+      setSelectedSubjects([...selectedSubjects, selectedSubject]);
+      e.target.value = ""; // Reset dropdown
+    }
+  };
+
+  // Handle removing a subject tag
+  const handleRemoveSubject = (subjectToRemove) => {
+    setSelectedSubjects(
+      selectedSubjects.filter((subject) => subject !== subjectToRemove)
+    );
+  };
+  // image into URL
+  const myWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: "dblnkp5ny",
+      uploadPreset: "zdemy_admin",
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        console.log("Done! Here is the image info: ", result.info);
+        setImgURL(result.info.url)
+      }
+    }
+  );
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,18 +99,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
 
     try {
       // Check if refs are valid before accessing their values
-      if (
-        !nameRef.current ||
-        !descriptionRef.current ||
-        !priceRef.current ||
-        !xs_priceRef.current ||
-        !sm_priceRef.current ||
-        !md_priceRef.current ||
-        !l_priceRef.current ||
-        !xl_priceRef.current ||
-        !imageRef.current ||
-        !categoryRef.current
-      ) {
+      if (!nameRef.current || !aGradesRef.current || !aStarRef.current) {
         setNotification({
           show: true,
           message: "Form initialization error. Please try again.",
@@ -77,26 +111,39 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
 
       // Get values from refs
       const name = nameRef.current.value;
-      const description = descriptionRef.current.value;
-      const price = parseFloat(priceRef.current.value);
-      const xs_price = parseFloat(xs_priceRef.current.value);
-      const sm_price = parseFloat(sm_priceRef.current.value);
-      const md_price = parseFloat(md_priceRef.current.value);
-      const l_price = parseFloat(l_priceRef.current.value);
-      const xl_price = parseFloat(xl_priceRef.current.value);
-      const imageFile = imageRef.current.files[0];
-      const category = categoryRef.current.value;
+      const aGrades = aGradesRef.current.value;
+      const aStar = aStarRef.current.value;
 
-      // Validate inputs
-      if (!name || !description || !imageFile || !category) {
+      // Get social media values (optional)
+      const facebook = facebookRef.current?.value || "";
+      const instagram = instagramRef.current?.value || "";
+      const website = websiteRef.current?.value || "";
+
+      // Validate required inputs (including image)
+      if (!name || !aGrades || !aStar || !imgURL) {
         setNotification({
           show: true,
-          message: "Please fill all fields",
+          message: "Please fill all required fields and upload an image",
           type: "error",
         });
         setIsLoading(false);
         return;
       }
+
+      // Create new teacher object with selected subjects
+      const newTeacher = {
+        name,
+        description,
+        aGrades,
+        aStar,
+        image: imgURL, // Use Cloudinary image URL
+        subjects: selectedSubjects,
+        facebook,
+        instagram,
+        website,
+      };
+
+      console.log(newTeacher);
 
       // Simulate adding product (no actual API call)
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -134,19 +181,19 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 backdrop-blur bg-opacity-50 flex items-center justify-center z-50">
       <div
         ref={modalRef}
         className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
         style={{ backgroundColor: "var(--card-bg)", color: "var(--card-text)" }}
       >
-        <h3 className="text-xl font-bold mb-4">Add New Menu Item</h3>
+        <h3 className="text-xl font-bold mb-4">Add New Teachers</h3>
 
         <div className="max-h-[70vh] overflow-y-auto pr-2">
           <form onSubmit={handleSubmit}>
             {/* Item Name */}
             <div className="mb-4">
-              <label className="block mb-2">Item Name</label>
+              <label className="block mb-2">Teacher Name</label>
               <input
                 type="text"
                 ref={nameRef}
@@ -156,169 +203,170 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
                   color: "var(--foreground)",
                   borderColor: "var(--card-text)",
                 }}
-                placeholder="Pizza Name"
+                placeholder="Teacher's Name"
                 required
               />
             </div>
-            {/* Item Description */}
+
+            {/* Subjects Multi-Select */}
             <div className="mb-4">
-              <label className="block mb-2">Description</label>
-              <textarea
-                ref={descriptionRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="Describe the item"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            {/* Item Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Price ($)</label>
-              <input
-                type="number"
-                ref={priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-                required
-              />
-            </div>
-            {/* Item xs Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Xs Price ($)</label>
-              <input
-                type="number"
-                ref={xs_priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-              />
-            </div>{" "}
-            {/* Item sm Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Sm Price ($)</label>
-              <input
-                type="number"
-                ref={sm_priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-              />
-            </div>{" "}
-            {/* Item md Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Md Price ($)</label>
-              <input
-                type="number"
-                ref={md_priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-              />
-            </div>{" "}
-            {/* Item Large Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Lg Price ($)</label>
-              <input
-                type="number"
-                ref={l_priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-              />
-            </div>
-            {/* Item Large Price */}
-            <div className="mb-4">
-              <label className="block mb-2">Xl Price ($)</label>
-              <input
-                type="number"
-                ref={xl_priceRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                placeholder="9.99"
-                step="0.01"
-                min="0"
-              />
-            </div>
-            {/* Item Category */}
-            <div className="mb-4">
-              <label className="block mb-2">Category</label>
+              <label className="block mb-2">Subjects</label>
+
+              {/* Selected Subjects Tags */}
+              {selectedSubjects.length > 0 && (
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {selectedSubjects.map((subject, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                      style={{
+                        backgroundColor: "var(--accent)",
+                        color: "white",
+                      }}
+                    >
+                      {subject}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSubject(subject)}
+                        className="ml-2 text-white hover:text-gray-200 focus:outline-none"
+                        aria-label={`Remove ${subject}`}
+                      >
+                        ❌
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Subject Selection Dropdown */}
               <select
-                ref={categoryRef}
+                onChange={handleSubjectSelect}
                 className="w-full px-3 py-2 border rounded-md"
                 style={{
                   backgroundColor: "var(--background)",
                   color: "var(--foreground)",
                   borderColor: "var(--card-text)",
                 }}
-                required
+                defaultValue=""
               >
-                <option value="">Select Category</option>
-                <option value="Pizza">Pizza</option>
-                <option value="Appetizers">Appetizers</option>
-                <option value="Sandwiches">Sandwiches</option>
-                <option value="Drinks">Drinks</option>
+                <option value="">Select a subject to add</option>
+                {availableSubjects
+                  .filter((subject) => !selectedSubjects.includes(subject))
+                  .map((subject, index) => (
+                    <option key={index} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
               </select>
             </div>
+
+            {/* Item A Grades */}
+            <div className="mb-4">
+              <label className="block mb-2">A Grades</label>
+              <input
+                ref={aGradesRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="A Grades"
+                required
+              />
+            </div>
+            {/* Item A* Grades */}
+            <div className="mb-4">
+              <label className="block mb-2">A* Grades</label>
+              <input
+                ref={aStarRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="A* Grades"
+                required
+              />
+            </div>
+            {/* Social Media Links - Optional Fields */}
+            <div className="mb-4">
+              <label className="block mb-2">Facebook (Optional)</label>
+              <input
+                type="url"
+                ref={facebookRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="https://facebook.com/username"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block mb-2">Instagram (Optional)</label>
+              <input
+                type="url"
+                ref={instagramRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="https://instagram.com/username"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block mb-2">Website (Optional)</label>
+              <input
+                type="url"
+                ref={websiteRef}
+                className="w-full px-3 py-2 border rounded-md"
+                style={{
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--card-text)",
+                }}
+                placeholder="https://yourwebsite.com"
+              />
+            </div>
+
             {/* Item Image */}
             <div className="mb-6">
               <label className="block mb-2">Image</label>
-              <input
-                type="file"
-                ref={imageRef}
-                className="w-full px-3 py-2 border rounded-md"
-                style={{
-                  backgroundColor: "var(--background)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--card-text)",
-                }}
-                accept="image/*"
-                required
-              />
+
+              {/* Image Preview */}
+              {imgURL && (
+                <div className="mb-3">
+                  <img
+                    src={imgURL}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover rounded-md border"
+                    style={{
+                      borderColor: "var(--card-text)",
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Upload Button */}
+              <span
+                onClick={() => myWidget.open()}
+                className="btn bg-[var(--accent)] text-white p-2 cursor-pointer inline-block rounded-md hover:opacity-90 transition-opacity"
+              >
+                {imgURL ? "Change Image" : "Upload Image"}
+              </span>
             </div>
+
             {/* Form Actions */}
             <div className="flex justify-end space-x-2 mt-4">
               <button
-                type="button"
+                type="submit"
                 onClick={onClose}
                 className="px-4 py-2 border rounded-md"
                 style={{
@@ -336,7 +384,6 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
               >
                 {isLoading ? "Adding..." : "Add Item"}
               </button>
-              
             </div>
           </form>
         </div>

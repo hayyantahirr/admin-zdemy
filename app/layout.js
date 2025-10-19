@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         />
 
         {/* ✅ Cloudinary initialization script */}
-        <Script id="cloudinary-widget-setup" strategy="afterInteractive">
+        {/* <Script id="cloudinary-widget-setup" strategy="afterInteractive">
           {`
     
     function initCloudinaryWidget() {
@@ -30,17 +30,7 @@ export default function RootLayout({ children }) {
         return;
       }
 
-      var myWidget = cloudinary.createUploadWidget(
-        {
-          cloudName: 'my_cloud_name',
-          uploadPreset: 'my_preset'
-        },
-        (error, result) => {
-          if (!error && result && result.event === "success") {
-            console.log('Done! Here is the image info: ', result.info);
-          }
-        }
-      );
+      ;
 
 
       const waitForButton = setInterval(() => {
@@ -55,7 +45,7 @@ export default function RootLayout({ children }) {
 
     initCloudinaryWidget();
   `}
-        </Script>
+        </Script> */}
 
         {children}
       </body>
