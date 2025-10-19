@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import AdminAddMenu from "./AdminAddTeacher";
 import AdminCards from "./AdminCards";
+import AdminAddGallery from "./AdminAddGallery";
+import AdminGalleryCards from "./AdminGalleryCards";
 
 const AdminGallery = () => {
   // State to control modal visibility
@@ -29,11 +31,11 @@ const AdminGallery = () => {
         className="rounded-lg shadow p-4"
         style={{ backgroundColor: "var(--card-bg)", color: "var(--card-text)" }}
       >
-        
+        <AdminGalleryCards />
       </div>
 
       {/* Modal component for adding new menu items */}
-      <AdminAddMenu isOpen={showModal} onClose={() => setShowModal(false)} />
+      <AdminAddGallery isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 };
