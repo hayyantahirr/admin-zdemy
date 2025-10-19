@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import AdminAddMenu from "./AdminAddMenu";
+import AdminAddMenu from "./AdminAddTeacher";
 import AdminCards from "./AdminCards";
 
 const AdminTeachers = () => {

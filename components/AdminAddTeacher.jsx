@@ -336,6 +336,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
               >
                 {isLoading ? "Adding..." : "Add Item"}
               </button>
+              
             </div>
           </form>
         </div>

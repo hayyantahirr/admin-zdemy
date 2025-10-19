@@ -50,7 +50,7 @@ const AdminCards = () => {
                   alt={teacher.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
               <div className="p-4">
@@ -66,8 +66,9 @@ const AdminCards = () => {
                     theme === "light" ? "text-gray-800" : "text-gray-200"
                   }`}
                 >
-                  A grade : RS. {teacher.aGrade}
+                 subjects: {teacher.subjects ? teacher.subjects.join(', ') : 'N/A'}
                 </span>
+                
               </div>
             </div>
           ))
