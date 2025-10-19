@@ -15,7 +15,7 @@ const AdminTeachers = () => {
           className="text-2xl font-bold "
           style={{ color: "var(--foreground)" }}
         >
-          Teachers
+          Teachers For Olevels
         </h2>
         <button
           className="bg-[var(--accent)] text-white px-4 py-2 rounded-md cursor-pointer hover:opacity-90"

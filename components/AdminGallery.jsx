@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import AdminAddMenu from "./AdminAddTeacher";
-import AdminCards from "./AdminCards";
 import AdminAddGallery from "./AdminAddGallery";
 import AdminGalleryCards from "./AdminGalleryCards";
 
@@ -23,7 +21,7 @@ const AdminGallery = () => {
           className="bg-[var(--accent)] text-white px-4 py-2 rounded-md cursor-pointer hover:opacity-90"
           onClick={() => setShowModal(true)}
         >
-          Add Image 
+          Add Image
         </button>
       </div>
 

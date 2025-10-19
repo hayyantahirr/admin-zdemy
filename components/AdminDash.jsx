@@ -15,8 +15,8 @@ import {
   Tooltip,
   Legend,
   ArcElement,
-} from 'chart.js';
-import { Bar, Pie } from 'react-chartjs-2';
+} from "chart.js";
+import { Bar, Pie } from "react-chartjs-2";
 
 // Register Chart.js components
 ChartJS.register(
@@ -52,7 +52,7 @@ const AdminDash = () => {
     const fetchChartData = async () => {
       try {
         setLoading(true);
-        
+
         // Mock data for dishes categories
         const mockDishesData = [
           { item_category: "Pizza" },
@@ -63,9 +63,9 @@ const AdminDash = () => {
           { item_category: "Salad" },
           { item_category: "Dessert" },
           { item_category: "Beverage" },
-          { item_category: "Beverage" }
+          { item_category: "Beverage" },
         ];
-        
+
         // Count products by category
         const categoryCount = mockDishesData.reduce((acc, dish) => {
           acc[dish.item_category] = (acc[dish.item_category] || 0) + 1;
@@ -80,12 +80,12 @@ const AdminDash = () => {
           { order_status: "Completed" },
           { order_status: "pending" },
           { order_status: "pending" },
-          { order_status: "Rejected" }
+          { order_status: "Rejected" },
         ];
-        
+
         // Count orders by status
         const statusCount = mockOrdersData.reduce((acc, order) => {
-          const status = order.order_status || 'pending';
+          const status = order.order_status || "pending";
           acc[status] = (acc[status] || 0) + 1;
           return acc;
         }, {});
@@ -112,19 +112,19 @@ const AdminDash = () => {
     labels: Object.keys(categoryData),
     datasets: [
       {
-        label: 'Products by Category',
+        label: "Products by Category",
         data: Object.values(categoryData),
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
-          '#FF9F40',
-          '#FF6384',
-          '#C9CBCF'
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+          "#FF6384",
+          "#C9CBCF",
         ],
-        borderColor: theme === 'light' ? '#ffffff' : '#374151',
+        borderColor: theme === "light" ? "#ffffff" : "#374151",
         borderWidth: 2,
       },
     ],
@@ -135,48 +135,44 @@ const AdminDash = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: "bottom",
         labels: {
-          color: theme === 'light' ? '#374151' : '#D1D5DB',
+          color: theme === "light" ? "#374151" : "#D1D5DB",
           padding: 20,
           font: {
-            size: 12
-          }
-        }
+            size: 12,
+          },
+        },
       },
       title: {
         display: true,
-        text: 'Product Distribution by Category',
-        color: theme === 'light' ? '#374151' : '#D1D5DB',
+        text: "Product Distribution by Category",
+        color: theme === "light" ? "#374151" : "#D1D5DB",
         font: {
           size: 16,
-          weight: 'bold'
-        }
+          weight: "bold",
+        },
       },
     },
   };
 
   // Bar chart configuration
   const barChartData = {
-    labels: ['Completed', 'Pending', 'Rejected'],
+    labels: ["Completed", "Pending", "Rejected"],
     datasets: [
       {
-        label: 'Number of Orders',
+        label: "Number of Orders",
         data: [
-          orderStatusData['Completed'] || 0,
-          orderStatusData['pending'] || 0,
-          orderStatusData['Rejected'] || 0
+          orderStatusData["Completed"] || 0,
+          orderStatusData["pending"] || 0,
+          orderStatusData["Rejected"] || 0,
         ],
         backgroundColor: [
-          '#10B981', // Green for completed
-          '#F59E0B', // Yellow for pending
-          '#EF4444'  // Red for rejected
+          "#10B981", // Green for completed
+          "#F59E0B", // Yellow for pending
+          "#EF4444", // Red for rejected
         ],
-        borderColor: [
-          '#059669',
-          '#D97706',
-          '#DC2626'
-        ],
+        borderColor: ["#059669", "#D97706", "#DC2626"],
         borderWidth: 1,
       },
     ],
@@ -191,33 +187,33 @@ const AdminDash = () => {
       },
       title: {
         display: true,
-        text: 'Order Status Distribution',
-        color: theme === 'light' ? '#374151' : '#D1D5DB',
+        text: "Order Status Distribution",
+        color: theme === "light" ? "#374151" : "#D1D5DB",
         font: {
           size: 16,
-          weight: 'bold'
-        }
+          weight: "bold",
+        },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          color: theme === 'light' ? '#6B7280' : '#9CA3AF',
-          stepSize: 1
+          color: theme === "light" ? "#6B7280" : "#9CA3AF",
+          stepSize: 1,
         },
         grid: {
-          color: theme === 'light' ? '#E5E7EB' : '#374151'
-        }
+          color: theme === "light" ? "#E5E7EB" : "#374151",
+        },
       },
       x: {
         ticks: {
-          color: theme === 'light' ? '#6B7280' : '#9CA3AF'
+          color: theme === "light" ? "#6B7280" : "#9CA3AF",
         },
         grid: {
-          color: theme === 'light' ? '#E5E7EB' : '#374151'
-        }
-      }
+          color: theme === "light" ? "#E5E7EB" : "#374151",
+        },
+      },
     },
   };
 
@@ -230,12 +226,28 @@ const AdminDash = () => {
         return <AdminGallery />;
       case "careers":
         return (
-          <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
-            <h2 className={`text-2xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+          <div
+            className={`p-6 ${
+              theme === "light" ? "bg-gray-50" : "bg-gray-900"
+            }`}
+          >
+            <h2
+              className={`text-2xl font-bold mb-6 ${
+                theme === "light" ? "text-gray-800" : "text-white"
+              }`}
+            >
               Careers Management
             </h2>
-            <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
-              <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+            <div
+              className={`rounded-lg shadow-lg p-6 ${
+                theme === "light" ? "bg-white" : "bg-gray-800"
+              }`}
+            >
+              <p
+                className={`${
+                  theme === "light" ? "text-gray-600" : "text-gray-300"
+                }`}
+              >
                 Careers management functionality coming soon...
               </p>
             </div>
@@ -243,12 +255,28 @@ const AdminDash = () => {
         );
       case "admissions":
         return (
-          <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
-            <h2 className={`text-2xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+          <div
+            className={`p-6 ${
+              theme === "light" ? "bg-gray-50" : "bg-gray-900"
+            }`}
+          >
+            <h2
+              className={`text-2xl font-bold mb-6 ${
+                theme === "light" ? "text-gray-800" : "text-white"
+              }`}
+            >
               Admissions Management
             </h2>
-            <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
-              <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+            <div
+              className={`rounded-lg shadow-lg p-6 ${
+                theme === "light" ? "bg-white" : "bg-gray-800"
+              }`}
+            >
+              <p
+                className={`${
+                  theme === "light" ? "text-gray-600" : "text-gray-300"
+                }`}
+              >
                 Admissions management functionality coming soon...
               </p>
             </div>
@@ -256,11 +284,19 @@ const AdminDash = () => {
         );
       default:
         return (
-          <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
-            <h2 className={`text-2xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+          <div
+            className={`p-6 ${
+              theme === "light" ? "bg-gray-50" : "bg-gray-900"
+            }`}
+          >
+            <h2
+              className={`text-2xl font-bold mb-6 ${
+                theme === "light" ? "text-gray-800" : "text-white"
+              }`}
+            >
               Dashboard Analytics
             </h2>
-            
+
             {loading ? (
               <div className="flex justify-center items-center h-64">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -268,62 +304,109 @@ const AdminDash = () => {
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Pie Chart */}
-                <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
+                <div
+                  className={`rounded-lg shadow-lg p-6 ${
+                    theme === "light" ? "bg-white" : "bg-gray-800"
+                  }`}
+                >
                   <div className="h-80">
                     <Pie data={pieChartData} options={pieChartOptions} />
                   </div>
-                  
+
                   {/* Category Legend */}
                   <div className="mt-4">
-                    <h4 className={`text-sm font-semibold mb-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
+                    <h4
+                      className={`text-sm font-semibold mb-2 ${
+                        theme === "light" ? "text-gray-700" : "text-gray-300"
+                      }`}
+                    >
                       Category Legend:
                     </h4>
                     <div className="grid grid-cols-2 gap-2 text-xs">
-                      {Object.entries(categoryData).map(([category, count], index) => (
-                        <div key={category} className="flex items-center">
-                          <div 
-                            className="w-3 h-3 rounded-full mr-2"
-                            style={{ 
-                              backgroundColor: pieChartData.datasets[0].backgroundColor[index % pieChartData.datasets[0].backgroundColor.length] 
-                            }}
-                          ></div>
-                          <span className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                            {category}: {count} items
-                          </span>
-                        </div>
-                      ))}
+                      {Object.entries(categoryData).map(
+                        ([category, count], index) => (
+                          <div key={category} className="flex items-center">
+                            <div
+                              className="w-3 h-3 rounded-full mr-2"
+                              style={{
+                                backgroundColor:
+                                  pieChartData.datasets[0].backgroundColor[
+                                    index %
+                                      pieChartData.datasets[0].backgroundColor
+                                        .length
+                                  ],
+                              }}
+                            ></div>
+                            <span
+                              className={
+                                theme === "light"
+                                  ? "text-gray-600"
+                                  : "text-gray-400"
+                              }
+                            >
+                              {category}: {count} items
+                            </span>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* Bar Chart */}
-                <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
+                <div
+                  className={`rounded-lg shadow-lg p-6 ${
+                    theme === "light" ? "bg-white" : "bg-gray-800"
+                  }`}
+                >
                   <div className="h-80">
                     <Bar data={barChartData} options={barChartOptions} />
                   </div>
-                  
+
                   {/* Status Legend */}
                   <div className="mt-4">
-                    <h4 className={`text-sm font-semibold mb-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
+                    <h4
+                      className={`text-sm font-semibold mb-2 ${
+                        theme === "light" ? "text-gray-700" : "text-gray-300"
+                      }`}
+                    >
                       Status Legend:
                     </h4>
                     <div className="flex flex-wrap gap-4 text-xs">
                       <div className="flex items-center">
                         <div className="w-3 h-3 rounded-full mr-2 bg-green-500"></div>
-                        <span className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                          Completed: {orderStatusData['Completed'] || 0} orders
+                        <span
+                          className={
+                            theme === "light"
+                              ? "text-gray-600"
+                              : "text-gray-400"
+                          }
+                        >
+                          Completed: {orderStatusData["Completed"] || 0} orders
                         </span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-3 h-3 rounded-full mr-2 bg-yellow-500"></div>
-                        <span className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                          Pending: {orderStatusData['pending'] || 0} orders
+                        <span
+                          className={
+                            theme === "light"
+                              ? "text-gray-600"
+                              : "text-gray-400"
+                          }
+                        >
+                          Pending: {orderStatusData["pending"] || 0} orders
                         </span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-3 h-3 rounded-full mr-2 bg-red-500"></div>
-                        <span className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                          Rejected: {orderStatusData['Rejected'] || 0} orders
+                        <span
+                          className={
+                            theme === "light"
+                              ? "text-gray-600"
+                              : "text-gray-400"
+                          }
+                        >
+                          Rejected: {orderStatusData["Rejected"] || 0} orders
                         </span>
                       </div>
                     </div>
@@ -338,7 +421,9 @@ const AdminDash = () => {
 
   return (
     <div
-      className={`flex h-screen ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900'}`}
+      className={`flex h-screen ${
+        theme === "light" ? "bg-gray-100" : "bg-gray-900"
+      }`}
     >
       {/* Render the sidebar component */}
       <AdminSidebar

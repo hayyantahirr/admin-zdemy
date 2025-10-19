@@ -34,7 +34,9 @@ const AdminGalleryCards = () => {
 
     setIsDeleting(galleryId);
     try {
-      await axios.delete(`http://localhost:4000/gallery/deleteGallery/${galleryId}`);
+      await axios.delete(
+        `http://localhost:4000/gallery/deleteGallery/${galleryId}`
+      );
       console.log("Gallery item deleted successfully");
       // Refresh the gallery list
       fetchData();
@@ -70,7 +72,7 @@ const AdminGalleryCards = () => {
                 className="object-cover"
               />
             </div>
-            
+
             {/* Delete Button */}
             <div className="p-4">
               <button
@@ -91,9 +93,7 @@ const AdminGalleryCards = () => {
         ))
       ) : (
         <div className="col-span-full text-center py-8">
-          <p
-            className={theme === "light" ? "text-gray-600" : "text-gray-400"}
-          >
+          <p className={theme === "light" ? "text-gray-600" : "text-gray-400"}>
             No gallery items found...
           </p>
         </div>
