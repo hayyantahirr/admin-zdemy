@@ -8,8 +8,12 @@ import axios from "axios";
 
 const AdminCards = () => {
   const [teacherForOlevels, setTeacherForOlevels] = useState([]);
+  // State for modal and selected teacher
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { theme } = useTheme();
+  
   const fetchData = async () => {
     try {
       console.log("Attempting to fetch data from API...");
@@ -25,9 +29,27 @@ const AdminCards = () => {
       // If CORS error, it will show in network tab
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Handle opening the edit modal
+  const handleEditClick = (teacher) => {
+    setSelectedTeacher(teacher);
+    setIsModalOpen(true);
+  };
+
+  // Handle closing the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedTeacher(null);
+  };
+
+  // Handle teacher updated (refresh data)
+  const handleTeacherUpdated = () => {
+    fetchData(); // Refresh the teacher list
+  };
 
   return (
     <>
@@ -69,6 +91,19 @@ const AdminCards = () => {
                  subjects: {teacher.subjects ? teacher.subjects.join(', ') : 'N/A'}
                 </span>
                 
+                {/* Edit Button */}
+                <div className="mt-4">
+                  <button
+                    onClick={() => handleEditClick(teacher)}
+                    className={`w-full px-4 py-2 rounded-md font-medium transition-colors ${
+                      theme === "light"
+                        ? "bg-blue-600 hover:bg-blue-700 text-white"
+                        : "bg-blue-500 hover:bg-blue-600 text-white"
+                    }`}
+                  >
+                    Edit Teacher
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -83,14 +118,15 @@ const AdminCards = () => {
         )}
       </div>
 
-      {/* {selectedProduct && (
+      {/* AdminUpdateCard Modal */}
+      {selectedTeacher && (
         <AdminUpdateCard
-          product={selectedProduct}
+          teacher={selectedTeacher}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          onProductUpdated={handleProductUpdated}
+          onTeacherUpdated={handleTeacherUpdated}
         />
-      )} */}
+      )}
     </>
   );
 };
