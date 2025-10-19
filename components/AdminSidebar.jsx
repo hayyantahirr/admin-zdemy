@@ -1,19 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   FaHome,
-  FaPizzaSlice,
-  FaClipboardList,
-  FaSignOutAlt,
-  FaSearch,
   FaTimes,
   FaChalkboardTeacher,
   FaImages,
   FaBriefcase,
   FaUniversity,
 } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
 const AdminSidebar = ({
   showSidebar,
@@ -100,19 +95,19 @@ const AdminSidebar = ({
             </li>
             <li>
               <button
-                onClick={() => setActiveComponent("menu")}
+                onClick={() => setActiveComponent("teachers")}
                 className={`w-full flex items-center p-3 rounded-md transition-colors cursor-pointer ${
-                  activeComponent === "menu"
+                  activeComponent === "teachers"
                     ? ""
                     : "hover:bg-white hover:bg-opacity-10"
                 }`}
                 style={{
                   backgroundColor:
-                    activeComponent === "menu"
+                    activeComponent === "teachers"
                       ? "var(--accent)"
                       : "transparent",
                   color:
-                    activeComponent === "menu"
+                    activeComponent === "teachers"
                       ? "white"
                       : "var(--sidebar-text)",
                 }}
@@ -123,19 +118,19 @@ const AdminSidebar = ({
             </li>
             <li>
               <button
-                onClick={() => setActiveComponent("orders")}
+                onClick={() => setActiveComponent("gallery")}
                 className={`w-full flex items-center p-3 rounded-md transition-colors cursor-pointer ${
-                  activeComponent === "orders"
+                  activeComponent === "gallery"
                     ? ""
                     : "hover:bg-white hover:bg-opacity-10"
                 }`}
                 style={{
                   backgroundColor:
-                    activeComponent === "orders"
+                    activeComponent === "gallery"
                       ? "var(--accent)"
                       : "transparent",
                   color:
-                    activeComponent === "orders"
+                    activeComponent === "gallery"
                       ? "white"
                       : "var(--sidebar-text)",
                 }}
@@ -147,19 +142,19 @@ const AdminSidebar = ({
             </li>
             <li>
               <button
-                onClick={() => setActiveComponent("orders")}
+                onClick={() => setActiveComponent("careers")}
                 className={`w-full flex items-center p-3 rounded-md transition-colors cursor-pointer ${
-                  activeComponent === "orders"
+                  activeComponent === "careers"
                     ? ""
                     : "hover:bg-white hover:bg-opacity-10"
                 }`}
                 style={{
                   backgroundColor:
-                    activeComponent === "orders"
+                    activeComponent === "careers"
                       ? "var(--accent)"
                       : "transparent",
                   color:
-                    activeComponent === "orders"
+                    activeComponent === "careers"
                       ? "white"
                       : "var(--sidebar-text)",
                 }}
@@ -171,19 +166,19 @@ const AdminSidebar = ({
             </li>
             <li>
               <button
-                onClick={() => setActiveComponent("orders")}
+                onClick={() => setActiveComponent("admissions")}
                 className={`w-full flex items-center p-3 rounded-md transition-colors cursor-pointer ${
-                  activeComponent === "orders"
+                  activeComponent === "admissions"
                     ? ""
                     : "hover:bg-white hover:bg-opacity-10"
                 }`}
                 style={{
                   backgroundColor:
-                    activeComponent === "orders"
+                    activeComponent === "admissions"
                       ? "var(--accent)"
                       : "transparent",
                   color:
-                    activeComponent === "orders"
+                    activeComponent === "admissions"
                       ? "white"
                       : "var(--sidebar-text)",
                 }}

@@ -54,7 +54,7 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
   // Available days and time options for schedule
   const availableDays = [
     "Monday",
-    "Tuesday", 
+    "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
@@ -63,11 +63,35 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
   ];
 
   const timeOptions = [
-    "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-    "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-    "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-    "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM",
-    "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM"
+    "8:00 AM",
+    "8:30 AM",
+    "9:00 AM",
+    "9:30 AM",
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "1:00 PM",
+    "1:30 PM",
+    "2:00 PM",
+    "2:30 PM",
+    "3:00 PM",
+    "3:30 PM",
+    "4:00 PM",
+    "4:30 PM",
+    "5:00 PM",
+    "5:30 PM",
+    "6:00 PM",
+    "6:30 PM",
+    "7:00 PM",
+    "7:30 PM",
+    "8:00 PM",
+    "8:30 PM",
+    "9:00 PM",
+    "9:30 PM",
+    "10:00 PM",
   ];
 
   // Handle click outside modal to close it
@@ -94,17 +118,20 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
       if (nameRef.current) nameRef.current.value = teacher.name || "";
       if (aGradesRef.current) aGradesRef.current.value = teacher.aGrades || "";
       if (aStarRef.current) aStarRef.current.value = teacher.aStar || "";
-      if (experienceRef.current) experienceRef.current.value = teacher.experience || "";
-      if (facebookRef.current) facebookRef.current.value = teacher.facebook || "";
-      if (instagramRef.current) instagramRef.current.value = teacher.instagram || "";
+      if (experienceRef.current)
+        experienceRef.current.value = teacher.experience || "";
+      if (facebookRef.current)
+        facebookRef.current.value = teacher.facebook || "";
+      if (instagramRef.current)
+        instagramRef.current.value = teacher.instagram || "";
       if (websiteRef.current) websiteRef.current.value = teacher.website || "";
-      
+
       // Pre-fill subjects
       setSelectedSubjects(teacher.subjects || []);
-      
+
       // Pre-fill image URL
       setImgURL(teacher.image || "");
-      
+
       // Pre-fill schedule
       setSchedule(teacher.schedule || []);
     }
@@ -431,7 +458,8 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
                       }}
                     >
                       <span className="text-sm">
-                        <strong>{scheduleItem.day}:</strong> {scheduleItem.startTime} - {scheduleItem.endTime}
+                        <strong>{scheduleItem.day}:</strong>{" "}
+                        {scheduleItem.startTime} - {scheduleItem.endTime}
                       </span>
                       <button
                         type="button"
@@ -446,7 +474,10 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
               )}
 
               {/* Add new schedule form */}
-              <div className="border rounded-md p-3" style={{ borderColor: "var(--card-text)" }}>
+              <div
+                className="border rounded-md p-3"
+                style={{ borderColor: "var(--card-text)" }}
+              >
                 <div className="grid grid-cols-3 gap-2 mb-2">
                   {/* Day Dropdown */}
                   <div>
@@ -520,8 +551,11 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
                   type="button"
                   onClick={() => {
                     const day = document.getElementById("schedule-day").value;
-                    const startTime = document.getElementById("schedule-start-time").value;
-                    const endTime = document.getElementById("schedule-end-time").value;
+                    const startTime = document.getElementById(
+                      "schedule-start-time"
+                    ).value;
+                    const endTime =
+                      document.getElementById("schedule-end-time").value;
 
                     if (day && startTime && endTime) {
                       addSchedule(day, startTime, endTime);

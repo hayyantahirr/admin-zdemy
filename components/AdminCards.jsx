@@ -13,7 +13,7 @@ const AdminCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { theme } = useTheme();
-  
+
   const fetchData = async () => {
     try {
       console.log("Attempting to fetch data from API...");
@@ -88,9 +88,10 @@ const AdminCards = () => {
                     theme === "light" ? "text-gray-800" : "text-gray-200"
                   }`}
                 >
-                 subjects: {teacher.subjects ? teacher.subjects.join(', ') : 'N/A'}
+                  subjects:{" "}
+                  {teacher.subjects ? teacher.subjects.join(", ") : "N/A"}
                 </span>
-                
+
                 {/* Edit Button */}
                 <div className="mt-4">
                   <button

@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "./ThemeContext";
 import AdminSidebar from "./AdminSidebar";
 import AdminNav from "./AdminNav";
-import AdminOrderList from "./AdminGallery";
-import AdminMenuItems from "./AdminTeachers";
+import AdminGallery from "./AdminGallery";
+import AdminTeachers from "./AdminTeachers";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -224,10 +224,36 @@ const AdminDash = () => {
   // Function to render the component based on the activeComponent state
   const renderComponent = () => {
     switch (activeComponent) {
-      case "orders":
-        return <AdminOrderList />;
-      case "menu":
-        return <AdminMenuItems />;
+      case "teachers":
+        return <AdminTeachers />;
+      case "gallery":
+        return <AdminGallery />;
+      case "careers":
+        return (
+          <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
+            <h2 className={`text-2xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+              Careers Management
+            </h2>
+            <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
+              <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                Careers management functionality coming soon...
+              </p>
+            </div>
+          </div>
+        );
+      case "admissions":
+        return (
+          <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
+            <h2 className={`text-2xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>
+              Admissions Management
+            </h2>
+            <div className={`rounded-lg shadow-lg p-6 ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
+              <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                Admissions management functionality coming soon...
+              </p>
+            </div>
+          </div>
+        );
       default:
         return (
           <div className={`p-6 ${theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'}`}>
