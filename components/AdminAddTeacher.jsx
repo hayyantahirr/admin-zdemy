@@ -232,8 +232,8 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       // Create new teacher object with selected subjects
       const newTeacher = {
         name,
-        aGrades,
-        aStar,
+        aGrade: aGrades,
+        aStar: aStar,
         image: imgURL, // Use Cloudinary image URL
         subjects: selectedSubjects,
         schedule: schedule.map((s) => ({
