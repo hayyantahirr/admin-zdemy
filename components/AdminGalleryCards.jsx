@@ -13,7 +13,7 @@ const AdminGalleryCards = () => {
   const fetchData = async () => {
     try {
       console.log("Attempting to fetch gallery data from API...");
-      const response = await axios.get("api/gallery");
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/gallery`);
       console.log("API Response:", response);
       console.log("API Data:", response.data);
       setGalleryItems(response.data.data);
@@ -34,7 +34,7 @@ const AdminGalleryCards = () => {
 
     setIsDeleting(galleryId); // Set the item being deleted
     try {
-      await axios.delete(`api/gallery/deleteGallery/${galleryId}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/gallery/deleteGallery/${galleryId}`);
       console.log("Gallery item deleted successfully");
       // Refresh the gallery list
       fetchData();

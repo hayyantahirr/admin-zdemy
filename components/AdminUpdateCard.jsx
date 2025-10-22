@@ -268,7 +268,7 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
 
       // Make PUT request to update teacher
       const response = await axios.put(
-        `api/teachersForOlevels/updateTeacherForOlevels/${teacher._id}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teachersForOlevels/updateTeacherForOlevels/${teacher._id}`,
         updatedTeacher
       );
 
@@ -309,7 +309,7 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
     try {
       // Make DELETE request
       const response = await axios.delete(
-        `api/teachersForOlevels/deleteTeacherForOlevels/${teacher._id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teachersForOlevels/deleteTeacherForOlevels/${teacher._id}`
       );
 
       if (response.status === 200) {

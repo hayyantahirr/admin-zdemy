@@ -87,7 +87,7 @@ const AdminAddGallery = ({ isOpen, onClose }) => {
       console.log(newGallery);
       try {
         await axios
-          .post("api/gallery/addGallery", newGallery)
+          .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/gallery/addGallery`, newGallery)
           .then((response) => {
             console.log("Gallery added successfully:", response.data);
           })

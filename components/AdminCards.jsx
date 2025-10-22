@@ -17,7 +17,7 @@ const AdminCards = () => {
   const fetchData = async () => {
     try {
       console.log("Attempting to fetch data from API...");
-      const response = await axios.get("api/teachersForOlevels");
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teachersForOlevels`);
       console.log("API Response:", response);
       console.log("API Data:", response.data);
       setTeacherForOlevels(response.data.data);

@@ -251,7 +251,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       try {
         await axios
           .post(
-            "api/teachersForOlevels/addTeacherForOlevels",
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teachersForOlevels/addTeacherForOlevels`,
             newTeacher
           )
           .then((response) => {
