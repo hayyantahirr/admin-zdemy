@@ -251,7 +251,7 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
       // Prepare updated teacher data
       const updatedTeacher = {
         name,
-        aGrades,
+        aGrade: aGrades,
         aStar,
         image: imgURL, // Use Cloudinary image URL
         subjects: selectedSubjects,

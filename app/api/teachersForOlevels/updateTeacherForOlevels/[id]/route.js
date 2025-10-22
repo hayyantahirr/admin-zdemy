@@ -22,9 +22,9 @@ export async function PUT(request, { params }) {
       );
     }
 
-    return NextResponse.json({ 
-      message: "Teacher updated successfully", 
-      updatedTeacher 
+    return NextResponse.json({
+      message: "Teacher updated successfully",
+      updatedTeacher,
     });
   } catch (error) {
     return NextResponse.json(
