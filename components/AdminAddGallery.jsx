@@ -87,7 +87,7 @@ const AdminAddGallery = ({ isOpen, onClose }) => {
       console.log(newGallery);
       try {
         await axios
-          .post("http://localhost:4000/gallery/addGallery", newGallery)
+          .post("api/gallery/addGallery", newGallery)
           .then((response) => {
             console.log("Gallery added successfully:", response.data);
           })

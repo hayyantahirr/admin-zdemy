@@ -13,7 +13,7 @@ const AdminGalleryCards = () => {
   const fetchData = async () => {
     try {
       console.log("Attempting to fetch gallery data from API...");
-      const response = await axios.get("http://localhost:4000/gallery");
+      const response = await axios.get("api/gallery");
       console.log("API Response:", response);
       console.log("API Data:", response.data);
       setGalleryItems(response.data.data);
@@ -32,11 +32,9 @@ const AdminGalleryCards = () => {
       return;
     }
 
-    setIsDeleting(galleryId);
+    setIsDeleting(galleryId); // Set the item being deleted
     try {
-      await axios.delete(
-        `http://localhost:4000/gallery/deleteGallery/${galleryId}`
-      );
+      await axios.delete(`api/gallery/deleteGallery/${galleryId}`);
       console.log("Gallery item deleted successfully");
       // Refresh the gallery list
       fetchData();
@@ -44,7 +42,7 @@ const AdminGalleryCards = () => {
       console.error("Error deleting gallery item:", error);
       alert("Failed to delete gallery item. Please try again.");
     } finally {
-      setIsDeleting(null);
+      setIsDeleting(null); // Reset the deleting state
     }
   };
 

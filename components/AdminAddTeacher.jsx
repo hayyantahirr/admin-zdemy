@@ -251,7 +251,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       try {
         await axios
           .post(
-            "http://localhost:4000/teachersForOlevels/addTeacherForOlevels",
+            "api/teachersForOlevels/addTeacherForOlevels",
             newTeacher
           )
           .then((response) => {
