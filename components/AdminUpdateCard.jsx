@@ -252,13 +252,13 @@ const AdminUpdateCard = ({ teacher, isOpen, onClose, onTeacherUpdated }) => {
       const updatedTeacher = {
         name,
         aGrade: aGrades,
-        aStar,
+        aStar: aStar,
         image: imgURL, // Use Cloudinary image URL
         subjects: selectedSubjects,
         facebook: facebook || null,
         instagram: instagram || null,
         website: website || null,
-        experience,
+        experience: experience,
         schedule: schedule.map(({ day, startTime, endTime }) => ({
           day,
           startTime,
